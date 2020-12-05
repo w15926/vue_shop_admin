@@ -1,8 +1,8 @@
 # vue_shop_admin
 
-## Project setup
+## About my project
 ```
-npm install
+这是一个基于vue开发的后台管理系统，用来个人学习
 ```
 
 ### Compiles and hot-reloads for development
