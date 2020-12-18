@@ -2,20 +2,21 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '@/components/Login.vue'
 import Home from '@/components/Home.vue'
+import Welcome from '@/components/Welcome.vue'
+import Users from '@/components/homeChildren/user/Users.vue'
 
 Vue.use(VueRouter)
 
-const routes = [{
-  path: '/',
-  redirect: '/login'
-},
-{
-  path: '/login',
-  component: Login
-}, {
-  path: '/home',
-  component: Home
-}
+const routes = [
+  { path: '/', redirect: '/login' },
+  { path: '/login', component: Login },
+  {
+    path: '/home', component: Home, redirect: '/welcome',
+    children: [
+      { path: '/welcome', component: Welcome },
+      { path: '/users', component: Users }
+    ]
+  }
 ]
 
 const router = new VueRouter({
@@ -23,7 +24,8 @@ const router = new VueRouter({
   routes
 })
 
-// beforeEach导航守卫
+// beforeEach导航守卫  没有token则一直返回login
+// to将要访问  from从哪个路径跳转来
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') return next()
   const tokenStr = window.sessionStorage.getItem('token')
