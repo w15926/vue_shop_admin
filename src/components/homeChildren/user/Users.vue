@@ -31,6 +31,7 @@
           </el-button>
         </el-col>
       </el-row>
+
       <!-- 用户列表区域 -->
       <el-table :data="userlist" border stripe>
         <el-table-column label="#" type="index"></el-table-column>
@@ -61,7 +62,12 @@
             </el-button>
 
             <!-- 删除按钮 -->
-            <el-button type="danger" icon="el-icon-delete" size="mini">
+            <el-button
+              type="danger"
+              icon="el-icon-delete"
+              size="mini"
+              @click="removeUserById(scope.row.id)"
+            >
             </el-button>
 
             <!-- 分配角色按钮 -->
@@ -77,6 +83,7 @@
           </template>
         </el-table-column>
       </el-table>
+
       <!-- 分页区域 -->
       <el-pagination
         @size-change="handleSizeChange"
@@ -95,13 +102,13 @@
       title="添加用户"
       :visible.sync="addDialogVisible"
       width="50%"
-      @close="dialogClosed"
+      @close="addDialogClosed"
     >
       <!-- 内容区域 -->
       <el-form
         :model="addForm"
         :rules="addFormRules"
-        ref="formRef"
+        ref="addFormRef"
         label-width="70px"
       >
         <el-form-item label="用户名" prop="username">
@@ -125,11 +132,16 @@
     </el-dialog>
 
     <!-- 修改用户信息对话框 -->
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="dialogClosed">
+    <el-dialog
+      title="修改用户"
+      :visible.sync="editDialogVisible"
+      width="50%"
+      @close="editDialogClosed"
+    >
       <el-form
         :model="editForm"
         :rules="editFormRules"
-        ref="formRef"
+        ref="editFormRef"
         label-width="70px"
       >
         <el-form-item label="用户名">
@@ -144,9 +156,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editDialogVisible = false">
-          确 定
-        </el-button>
+        <el-button type="primary" @click="editUserInfo"> 确 定 </el-button>
       </span>
     </el-dialog>
   </div>
@@ -281,11 +291,11 @@ export default {
       }
       this.$message.success('更新成功')
     },
-    // 监听对话框的关闭事件
-    dialogClosed() {
-      this.$refs.formRef.resetFields() // 取消对话框后（未提交成功则）重置表单 resetFields为内置属性
+    // 监听 添加用户对话框 的关闭事件
+    addDialogClosed() {
+      this.$refs.addFormRef.resetFields() // 取消对话框后（未提交成功则）重置表单 resetFields为内置属性
     },
-    // 点击 确认按钮 添加用户
+    // 点击 添加用户表单 的确认按钮
     addUser() {
       this.$refs.addFormRef.validate(async valid => { // 预验证（成功为 true，失败为 false）
         if (!valid) return // 如果不为真（false）就退出
@@ -306,6 +316,43 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error('查询用户信息失败') }
       this.editForm = res.data
       this.editDialogVisible = true
+    },
+    // 监听 修改用户对话框 的关闭事件
+    editDialogClosed() {
+      this.$refs.editFormRef.resetFields()
+    },
+    // 点击 修改用户表单 的确认按钮
+    editUserInfo() {
+      this.$refs.editFormRef.validate(async valid => {
+        if (!valid) return
+        const { data: res } = await this.$http.put('users/' + this.editForm.id, {
+          email: this.editForm.email,
+          mobile: this.editForm.mobile
+        })
+
+        if (res.meta.status !== 200) {
+          return this.$message.error('更新用户信息失败')
+        }
+
+        this.editDialogVisible = false
+        this.getUserList()
+        this.$message.success('更新用户信息成功')
+      })
+    },
+    // 点击 删除用户按钮
+    async removeUserById(id) {
+      const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', ' 删除提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .catch((err) => { this.$message.info('已取消删除'), console.log(err) })
+
+      // if (confirmResult !== 'confirm') { return this.$message.info('已取消删除咯') } // 等于 .catch
+      const { data: res } = await this.$http.delete('users/' + id)
+      if (res.meta.status !== 200) { return this.$message.error('删除成功') }
+      this.$message.success('删除成功')
+      this.getUserList()
     },
   }
 }

@@ -27,6 +27,7 @@ import {
   Tooltip,
   Pagination, // 分页区域
   Dialog, // 对话框
+  MessageBox,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -52,3 +53,4 @@ Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.prototype.$message = Message // 挂载，赋值给原型对象里自定义属性message
+Vue.prototype.$confirm = MessageBox.confirm
