@@ -161,9 +161,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .catch((err) => { this.$message.info('已取消删除'), console.log(err) })
+        .catch(err => err)
 
-      // if (confirmResult !== 'confirm') { return this.$message.info('已取消删除咯') } // 等于 .catch
+      if (confirmResult !== 'confirm') { return this.$message.info('已取消删除') } // 等于 .catch
       const { data: res } = await this.$http.delete('roles/' + id)
       if (res.meta.status !== 200) { return this.$message.error('删除失败') }
       this.$message.success('删除成功')

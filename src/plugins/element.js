@@ -28,7 +28,8 @@ import {
   Pagination, // 分页区域
   Dialog, // 对话框
   MessageBox,
-  Tag
+  Tag,
+  Cascader, // 级联选择器
 } from 'element-ui'
 
 Vue.use(Button)
@@ -54,5 +55,6 @@ Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Tag)
+Vue.use(Cascader)
 Vue.prototype.$message = Message // 挂载，赋值给原型对象里自定义属性message
 Vue.prototype.$confirm = MessageBox.confirm
