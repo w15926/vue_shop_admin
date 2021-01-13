@@ -29,13 +29,10 @@ import {
   Dialog,
   MessageBox,
   Tag,
-<<<<<<< HEAD
   Cascader, // 级联选择器
-=======
   Tree,
   Select,
   Option
->>>>>>> rights
 } from 'element-ui'
 
 Vue.use(Button)
@@ -61,12 +58,9 @@ Vue.use(Tooltip)
 Vue.use(Pagination)
 Vue.use(Dialog)
 Vue.use(Tag)
-<<<<<<< HEAD
 Vue.use(Cascader)
-=======
 Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
->>>>>>> rights
 Vue.prototype.$message = Message // 挂载，赋值给原型对象里自定义属性message
 Vue.prototype.$confirm = MessageBox.confirm
