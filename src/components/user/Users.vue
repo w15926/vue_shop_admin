@@ -377,7 +377,7 @@ export default {
         this.$message.success('更新用户信息成功')
       })
     },
-    // 点击 删除用户按钮  删除成功返回confirm，失败返回cancel 
+    // 点击 删除用户按钮
     async removeUserById(id) {
       const confirmResult = await this.$confirm('此操作将永久删除该用户, 是否继续?', ' 删除提示', {
         confirmButtonText: '确定',
@@ -386,15 +386,9 @@ export default {
       })
         .catch(err => err)
 
-<<<<<<< HEAD:src/components/user/Users.vue
-      if (confirmResult !== 'confirm') { return this.$message.info('已取消删除') } // 等于 .catch
-      const { data: res } = await this.$http.delete('users/' + id)
-      if (res.meta.status !== 200) { return this.$message.error('删除失败') }
-=======
       if (confirmResult !== 'confirm') { return this.$message.info('已取消删除咯') } // 等于 .catch
       const { data: res } = await this.$http.delete('users/' + id)
       if (res.meta.status !== 200) return this.$message.error('删除失败')
->>>>>>> rights:src/components/homeChildren/user/Users.vue
       this.$message.success('删除成功')
       this.getUserList()
     },
