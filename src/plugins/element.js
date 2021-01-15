@@ -32,7 +32,10 @@ import {
   Cascader, // 级联选择器
   Tree,
   Select,
-  Option
+  Option,
+  Alert,
+  Tabs,
+  TabPane
 } from 'element-ui'
 
 Vue.use(Button)
@@ -62,5 +65,8 @@ Vue.use(Cascader)
 Vue.use(Tree)
 Vue.use(Select)
 Vue.use(Option)
+Vue.use(Alert)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.prototype.$message = Message // 挂载，赋值给原型对象里自定义属性message
 Vue.prototype.$confirm = MessageBox.confirm
