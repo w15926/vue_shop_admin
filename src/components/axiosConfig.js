@@ -5,6 +5,7 @@ import NProgress from 'nprogress' // 导入 NProgress进度条和对应 css
 import 'nprogress/nprogress.css'
 
 axios.defaults.baseURL = 'https://www.liulongbin.top:8888/api/private/v1/'
+axios.defaults.timeout = 5000
 
 // 在 request拦截器中，展示进度条
 axios.interceptors.request.use(config => {
