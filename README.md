@@ -9,13 +9,12 @@
 ```
 前后端分离开发模式
 ```
-
 ### 技术选型
 #### 前端项目技术栈
 ```
-* Vue
-* Vue-router
-* Element-UI
-* Axios
-* Echarts
+- Vue
+- Vue-router
+- Element-UI
+- Axios
+- Echarts
 ```
