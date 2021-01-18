@@ -35,7 +35,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" icon="el-icon-edit" @click="showBox">
+            <el-button size="mini" type="primary" icon="el-icon-edit"
+              @click="showBox(scope.row)">
             </el-button>
             <el-button size="mini" type="success" icon="el-icon-location"
               @click="showProgressBox">
@@ -136,7 +137,7 @@ export default {
     },
     // 修改地址对话框
     showBox() {
-      this.addressVisible = true 
+      this.addressVisible = true
     },
     // 关闭修改地址对话框
     addressDialogClosed() {
@@ -155,8 +156,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import '../../plugins/timeline/timeline.css';
-@import '../../plugins/timeline-item/timeline-item.css';
+@import "../../plugins/timeline/timeline.css";
+@import "../../plugins/timeline-item/timeline-item.css";
 
 .el-cascader {
   width: 100%;
