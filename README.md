@@ -1,19 +1,11 @@
-# vue_shop_admin
+## Vue电商后台管理系统
 
-## About my project
+### 功能
 ```
-这是一个基于vue开发的后台管理系统，用来个人学习
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
+用于管理用户账号，商品分类，商品信息，订单，数据统计等业务功能
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+### 开发模式
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+前后端分离开发模式
+

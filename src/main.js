@@ -3,7 +3,9 @@ import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
 import './components/content/axiosConfig'
+
 import TreeTable from 'vue-table-with-tree-grid'
+
 import VueQuillEditor from 'vue-quill-editor' // 导入富文本编辑器
 import 'quill/dist/quill.core.css' // 导入富文本编辑器三条样式
 import 'quill/dist/quill.snow.css'
