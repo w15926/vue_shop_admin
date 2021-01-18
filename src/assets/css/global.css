@@ -24,7 +24,7 @@ body,
   font-size: 12px;
 }
 
-.el-pagination{
+.el-pagination {
   margin-top: 15px;
 }
 
@@ -34,4 +34,16 @@ body,
 
 .zk-table__cell-inner {
   width: 180px;
+}
+
+.el-steps {
+  margin: 15px 0;
+}
+
+.el-step__title {
+  font-size: 13px;
+}
+
+.ql-editor {
+  min-height: 300px;
 }
