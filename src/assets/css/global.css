@@ -1,8 +1,6 @@
 /* @import './normalize.css'; */
 
-html,
-body,
-#app {
+html, body, #app {
   box-sizing: border-box;
   height: 100%;
   margin: 0;
