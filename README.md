@@ -8,11 +8,11 @@
 前后端分离开发模式
 ```
 ### 技术选型
-#### 前端项目技术栈
+#### $\color{#ccc}{前端项目技术栈}$
 ```
-- Vue
-- Vue-router
-- Element-UI
-- Axios
-- Echarts
+1. Vue
+2. Vue-router
+3. Element-UI
+4. Axios
+5. Echarts
 ```
