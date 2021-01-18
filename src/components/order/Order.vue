@@ -136,7 +136,7 @@ export default {
     },
     // 修改地址对话框
     showBox() {
-      this.addressVisible = true
+      this.addressVisible = true 
     },
     // 关闭修改地址对话框
     addressDialogClosed() {
