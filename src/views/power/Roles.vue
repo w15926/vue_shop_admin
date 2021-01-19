@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!-- 面包屑 路径区 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>权限管理</el-breadcrumb-item>
-      <el-breadcrumb-item>角色列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 面包屑导航区域 -->
+    <bread-crumb>
+      <template #pathTwo>权限管理</template>
+      <template #pathThree>角色列表</template>
+    </bread-crumb>
 
     <!-- 卡片视图 -->
     <el-card>
@@ -22,11 +21,8 @@
           <template v-slot="scope">
             <!-- 24列栅格布局 动态绑定calss是数组写法 -->
             <!-- 动态绑定，给每一个都添加bd-bottom，如果index1是0，给他添加bd-top -->
-            <el-row
-              :class="['bd-bottom', i1 === 0 ? 'bd-top' : '', 'vcenter']"
-              v-for="(item1, i1) in scope.row.children"
-              :key="i1"
-            >
+            <el-row :class="['bd-bottom', i1 === 0 ? 'bd-top' : '', 'vcenter']"
+              v-for="(item1, i1) in scope.row.children" :key="i1">
               <!-- 一级权限 -->
               <el-col :span="5">
                 <el-tag closable @close="removeRightById(scope.row, item1.id)">
@@ -37,30 +33,19 @@
               <!-- 二级和三级权限 -->
               <el-col :span="19">
                 <!-- 双重 for循环渲染二级 -->
-                <el-row
-                  :class="[i2 === 0 ? '' : 'bd-top', 'vcenter']"
-                  v-for="(item2, i2) in item1.children"
-                  :key="i2"
-                >
+                <el-row :class="[i2 === 0 ? '' : 'bd-top', 'vcenter']"
+                  v-for="(item2, i2) in item1.children" :key="i2">
                   <el-col :span="6">
-                    <el-tag
-                      type="success"
-                      closable
-                      @close="removeRightById(scope.row, item2.id)"
-                    >
+                    <el-tag type="success" closable
+                      @close="removeRightById(scope.row, item2.id)">
                       {{ item2.authName }}
                     </el-tag>
                     <i class="el-icon-caret-right"></i>
                   </el-col>
                   <!-- 三级 -->
                   <el-col :span="18">
-                    <el-tag
-                      v-for="item3 in item2.children"
-                      :key="item3.id"
-                      type="warning"
-                      closable
-                      @close="removeRightById(scope.row, item3.id)"
-                    >
+                    <el-tag v-for="item3 in item2.children" :key="item3.id" type="warning"
+                      closable @close="removeRightById(scope.row, item3.id)">
                       {{ item3.authName }}
                     </el-tag>
                   </el-col>
@@ -76,30 +61,18 @@
         <el-table-column label="操作" width="300px">
           <template v-slot="scope">
             <!-- 编辑按钮 -->
-            <el-button
-              size="mini"
-              type="primary"
-              icon="el-icon-edit"
-              @click="showEditDialog(scope.row.id)"
-            >
+            <el-button size="mini" type="primary" icon="el-icon-edit"
+              @click="showEditDialog(scope.row.id)">
               编辑
             </el-button>
             <!-- 删除按钮 -->
-            <el-button
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              @click="removeEditDialog(scope.row.id)"
-            >
+            <el-button size="mini" type="danger" icon="el-icon-delete"
+              @click="removeEditDialog(scope.row.id)">
               删除
             </el-button>
             <!-- 分配角色按钮 -->
-            <el-button
-              size="mini"
-              type="warning"
-              icon="el-icon-setting"
-              @click="showSetRightDialog(scope.row)"
-            >
+            <el-button size="mini" type="warning" icon="el-icon-setting"
+              @click="showSetRightDialog(scope.row)">
               分配权限
             </el-button>
           </template>
@@ -108,12 +81,8 @@
     </el-card>
 
     <!-- 添加用户的对话框 -->
-    <el-dialog
-      title="添加角色"
-      :visible.sync="addDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
+    <el-dialog title="添加角色" :visible.sync="addDialogVisible" width="50%"
+      @close="editDialogClosed">
       <!-- 内容区域 -->
       <el-form :model="addForm" ref="editFormRef" label-width="70px">
         <el-form-item label="角色名称" prop="roleName">
@@ -131,12 +100,8 @@
     </el-dialog>
 
     <!-- 编辑按钮对话框 -->
-    <el-dialog
-      title="编辑用户"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
+    <el-dialog title="编辑用户" :visible.sync="editDialogVisible" width="50%"
+      @close="editDialogClosed">
       <el-form :model="editForm" ref="editFormRef" label-width="70px">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="editForm.roleName"></el-input>
@@ -152,22 +117,11 @@
     </el-dialog>
 
     <!-- 分配权限对话框 -->
-    <el-dialog
-      title="分配权限"
-      :visible.sync="setRightdialogVisible"
-      width="50%"
-      @close="setRightDialogClosed"
-    >
+    <el-dialog title="分配权限" :visible.sync="setRightdialogVisible" width="50%"
+      @close="setRightDialogClosed">
       <!-- 树形控件 -->
-      <el-tree
-        :data="rightsList"
-        :props="treeProps"
-        show-checkbox
-        node-key="id"
-        default-expand-all
-        :default-checked-keys="defKeys"
-        ref="treeRef"
-      ></el-tree>
+      <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id"
+        default-expand-all :default-checked-keys="defKeys" ref="treeRef"></el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightdialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="allotRights">确 定</el-button>
@@ -177,6 +131,8 @@
 </template>
 
 <script>
+import breadCrumb from '@/components/el-ui/BreadCrumb'
+
 export default {
   data() {
     return {
@@ -334,6 +290,9 @@ export default {
 
       console.log(keys)
     }
+  },
+  components: {
+    breadCrumb
   }
 }
 </script>

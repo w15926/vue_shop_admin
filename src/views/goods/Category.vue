@@ -1,54 +1,36 @@
 <template>
   <div>
-    <!-- 面包屑 路径区 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>商品管理</el-breadcrumb-item>
-      <el-breadcrumb-item>商品分类</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 面包屑导航区域 -->
+    <bread-crumb>
+      <template #pathTwo>商品管理</template>
+      <template #pathThree>商品分类</template>
+    </bread-crumb>
 
     <!-- 卡片视图区域 -->
     <el-card>
       <!-- 添加分类按钮 -->
       <el-row>
         <el-col>
-          <el-button type="primary" @click="showAddCateDialog"
-            >添加分类</el-button
-          >
+          <el-button type="primary" @click="showAddCateDialog">添加分类</el-button>
         </el-col>
       </el-row>
 
       <!-- 表格区域 -->
-      <tree-table
-        :data="cateList"
-        :columns="columns"
-        :selection-type="false"
-        :expand-type="false"
-        show-index
-        index-text="#"
-        border
-        class="treeTable"
-      >
+      <tree-table :data="cateList" :columns="columns" :selection-type="false"
+        :expand-type="false" show-index index-text="#" border class="treeTable">
         <!-- 是否有效 -->
         <!-- <template slot="isok" v-slot="scope"> -->
         <!-- <template v-slot:isOk="scope"> -->
         <template #isOk="scope">
-          <i
-            class="el-icon-success"
-            v-if="!scope.row.deleted"
-            style="color: lightgreen"
-          ></i>
+          <i class="el-icon-success" v-if="!scope.row.deleted"
+            style="color: lightgreen"></i>
           <i class="el-icon-error" v-else style="color: red"></i>
         </template>
 
         <!-- 排序 -->
         <template #order="scope">
           <el-tag size="mini" v-if="scope.row.cat_level === 0">一级</el-tag>
-          <el-tag
-            size="mini"
-            type="success"
-            v-else-if="scope.row.cat_level === 1"
-          >
+          <el-tag size="mini" type="success" v-else-if="scope.row.cat_level === 1">
             二级
           </el-tag>
           <el-tag size="mini" type="warning" v-else>三级</el-tag>
@@ -56,70 +38,43 @@
 
         <!-- 操作 -->
         <template #opt="scope">
-          <el-button
-            size="mini"
-            type="primary"
-            icon="el-icon-edit"
-            @click="showEditDialog(scope.row.cat_id)"
-          >
+          <el-button size="mini" type="primary" icon="el-icon-edit"
+            @click="showEditDialog(scope.row.cat_id)">
             编辑
           </el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            icon="el-icon-delete"
-            @click="removeUserById(scope.row.cat_id)"
-          >
+          <el-button size="mini" type="danger" icon="el-icon-delete"
+            @click="removeUserById(scope.row.cat_id)">
             删除
           </el-button>
         </template>
       </tree-table>
 
       <!-- 分页区域 -->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum"
-        :page-sizes="[3, 5, 10, 15]"
-        :page-size="queryInfo.pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total"
-      >
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+        :current-page="queryInfo.pagenum" :page-sizes="[3, 5, 10, 15]"
+        :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
       </el-pagination>
     </el-card>
 
     <!-- 添加分类对话框 -->
-    <el-dialog
-      title="添加分类"
-      :visible.sync="addCateDialogVisible"
-      width="50%"
-      @close="addCateDialogClose"
-    >
+    <el-dialog title="添加分类" :visible.sync="addCateDialogVisible" width="50%"
+      @close="addCateDialogClose">
       <!-- 添加分类的表单 -->
-      <el-form
-        :model="addCateForm"
-        :rules="addCateFormRules"
-        ref="addCateFormRef"
-        label-width="100px"
-      >
+      <el-form :model="addCateForm" :rules="addCateFormRules" ref="addCateFormRef"
+        label-width="100px">
         <el-form-item label="分类名称" prop="cat_name">
           <el-input v-model="addCateForm.cat_name"></el-input>
         </el-form-item>
         <el-form-item label="父级分类">
           <!-- options用来指定数据源 -->
-          <el-cascader
-            v-model="selectedKeys"
-            :options="paraentCateList"
-            :props="{
+          <el-cascader v-model="selectedKeys" :options="paraentCateList" :props="{
               expandTrigger: 'hover',
               value: 'cat_id',
               label: 'cat_name',
               children: 'children',
               checkStrictly: true,
-            }"
-            @change="paraentCateChange"
-            clearable
-          ></el-cascader>
+            }" @change="paraentCateChange" clearable></el-cascader>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -129,18 +84,10 @@
     </el-dialog>
 
     <!-- 编辑按钮对话框 -->
-    <el-dialog
-      title="修改名称"
-      :visible.sync="editDialogVisible"
-      width="50%"
-      @close="editDialogClosed"
-    >
-      <el-form
-        :model="editForm"
-        :rules="editFormRules"
-        ref="editFormRef"
-        label-width="70px"
-      >
+    <el-dialog title="修改名称" :visible.sync="editDialogVisible" width="50%"
+      @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef"
+        label-width="70px">
         <el-form-item label="名称" prop="cat_name">
           <el-input v-model="editForm.cat_name"></el-input>
         </el-form-item>
@@ -154,6 +101,8 @@
 </template>
 
 <script>
+import breadCrumb from '@/components/el-ui/BreadCrumb'
+
 export default {
   data() {
     return {
@@ -325,10 +274,13 @@ export default {
       if (confirmResult !== 'confirm') return this.$message.info('已取消删除') // 等价于 .catch
 
       const { data: res } = await this.$http.delete('categories/' + id)
-      if(res.meta.status !== 200) return this.$message.error('删除失败')
+      if (res.meta.status !== 200) return this.$message.error('删除失败')
       this.$message.success('删除成功')
       this.getCateList()
     }
+  },
+  components: {
+    breadCrumb
   }
 }
 </script>

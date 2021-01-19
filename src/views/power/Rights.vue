@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!-- 面包屑 路径区 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>权限管理</el-breadcrumb-item>
-      <el-breadcrumb-item>权限列表</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 面包屑导航区域 -->
+    <bread-crumb>
+      <template #pathTwo>权限管理</template>
+      <template #pathThree>权限列表</template>
+    </bread-crumb>
 
     <!-- 卡片视图 -->
     <el-card>
@@ -28,6 +27,8 @@
 </template>
 
 <script>
+import breadCrumb from '@/components/el-ui/BreadCrumb'
+
 export default {
   data() {
     return {
@@ -43,6 +44,9 @@ export default {
       if (res.meta.status !== 200) { return this.$message.error('获取权限列表失败') }
       this.rightsList = res.data
     }
+  },
+  components: {
+    breadCrumb
   }
 }
 </script>

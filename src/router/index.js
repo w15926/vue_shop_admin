@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-const Login = () => import('@/components/Login.vue')
-const Home = () => import('@/components/Home.vue')
+const Login = () => import('@/views/Login.vue')
+const Home = () => import('@/views/Home.vue')
 
-const Welcome = () => import('@/components/Welcome.vue')
-const Users = () => import('@/components/user/Users.vue')
+const Welcome = () => import('@/views/Welcome.vue')
+const Users = () => import('@/views/user/Users.vue')
 
-const Rights = () => import('@/components/power/Rights.vue')
-const Roles = () => import('@/components/power/Roles.vue')
+const Rights = () => import('@/views/power/Rights.vue')
+const Roles = () => import('@/views/power/Roles.vue')
 
-const Category = () => import('@/components/goods/Category')
-const Params = () => import('@/components/goods/Params')
-const List = () => import('@/components/goods/List')
-const Add = () => import('@/components/goods/Add')
+const Category = () => import('@/views/goods/Category')
+const Params = () => import('@/views/goods/Params')
+const List = () => import('@/views/goods/List')
+const Add = () => import('@/views/goods/Add')
 
-const Order = () => import('@/components/order/Order')
+const Order = () => import('@/views/order/Order')
 
-const Report = () => import('@/components/report/Report')
+const Report = () => import('@/views/report/Report')
 
 Vue.use(VueRouter)
 const routes = [{
@@ -44,6 +44,7 @@ const routes = [{
 },]
 const router = new VueRouter({
   mode: 'history',
+  // base: process.env.BASE_URL,
   routes
 })
 

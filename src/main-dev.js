@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
-import './components/content/axiosConfig'
+import './components/axiosConfig' // axios配置
+import './components/dateFormat/dateFormat' // 日期格式化
 
 import TreeTable from 'vue-table-with-tree-grid'
 
@@ -13,20 +14,6 @@ import 'quill/dist/quill.bubble.css'
 
 Vue.component('tree-table', TreeTable)
 Vue.use(VueQuillEditor)
-
-Vue.filter('dateFormat', function(originVal) { // 传入毫秒
-  const dt = new Date(originVal)
-
-  const y = dt.getFullYear()
-  const m = (dt.getMonth() + 1 + '').padStart(2, '0') //拼接成字符串，不足两位前面补0
-  const d = (dt.getDate() + '').padStart(2, '0')
-
-  const hh = (dt.getHours() + '').padStart(2, '0')
-  const mm = (dt.getMinutes() + '').padStart(2, '0')
-  const ss = (dt.getSeconds() + '').padStart(2, '0')
-
-  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
-})
 
 Vue.config.productionTip = false
 

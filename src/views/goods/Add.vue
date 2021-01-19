@@ -1,11 +1,10 @@
 <template>
   <div>
     <!-- 面包屑导航区域 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>商品管理</el-breadcrumb-item>
-      <el-breadcrumb-item>添加商品</el-breadcrumb-item>
-    </el-breadcrumb>
+    <bread-crumb>
+      <template #pathTwo>商品管理</template>
+      <template #pathThree>商品添加</template>
+    </bread-crumb>
 
     <!-- 卡片视图 -->
     <el-card>
@@ -92,6 +91,7 @@
 </template>
 
 <script>
+import breadCrumb from '@/components/el-ui/BreadCrumb'
 import _ from 'lodash'
 
 export default {
@@ -292,6 +292,9 @@ export default {
       }
       return null
     }
+  },
+  components: {
+    breadCrumb
   }
 }
 </script>

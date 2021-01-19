@@ -1,11 +1,10 @@
 <template>
   <div>
-    <!-- 面包屑 路径区 -->
-    <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-      <el-breadcrumb-item>数据统计</el-breadcrumb-item>
-      <el-breadcrumb-item>数据报表</el-breadcrumb-item>
-    </el-breadcrumb>
+    <!-- 面包屑导航区域 -->
+    <bread-crumb>
+      <template #pathTwo>数据统计</template>
+      <template #pathThree>数据报表</template>
+    </bread-crumb>
 
     <!-- 卡片视图 -->
     <el-card>
@@ -15,6 +14,7 @@
 </template>
 
 <script>
+import breadCrumb from '@/components/el-ui/BreadCrumb'
 // import echarts from 'echarts'
 import * as echarts from 'echarts'
 import _ from 'lodash'
@@ -69,6 +69,9 @@ export default {
   },
   methods: {
 
+  },
+  components: {
+    breadCrumb
   }
 }
 </script>
