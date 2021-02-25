@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template v-slot="scope">
-            <el-button size="mini" type="primary" iccon="el-icon-edit"
+            <el-button size="mini" type="primary" icon="el-icon-edit"
               @click="showBox(scope.row)">
             </el-button>
             <el-button size="mini" type="success" icon="el-icon-location"
