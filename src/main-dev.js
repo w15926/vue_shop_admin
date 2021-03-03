@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import './plugins/element.js'
-import './components/axiosConfig' // axios配置
+import './network/request' // axios配置
 import './components/dateFormat/dateFormat' // 日期格式化
 
 import TreeTable from 'vue-table-with-tree-grid'

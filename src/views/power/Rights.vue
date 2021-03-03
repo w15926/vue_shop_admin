@@ -30,6 +30,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       rightsList: []
@@ -41,12 +44,9 @@ export default {
   methods: {
     async getRightsList() {
       const { data: res } = await this.$http.get('rights/list')
-      if (res.meta.status !== 200) { return this.$message.error('获取权限列表失败') }
+      if (res.meta.status !== 200) return
       this.rightsList = res.data
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

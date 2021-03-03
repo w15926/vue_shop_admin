@@ -18,6 +18,8 @@ axios.interceptors.request.use(config => {
 
 // 在 response拦截器中隐藏进度条
 axios.interceptors.response.use(config => {
+  let res = config.data
+  if (res.meta.status !== 200) console.log(res) // 错误拦截
   NProgress.done()
   return config
 })

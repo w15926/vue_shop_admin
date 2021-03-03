@@ -33,19 +33,17 @@
               <!-- 二级和三级权限 -->
               <el-col :span="19">
                 <!-- 双重 for循环渲染二级 -->
-                <el-row :class="[i2 === 0 ? '' : 'bd-top', 'vcenter']"
-                  v-for="(item2, i2) in item1.children" :key="i2">
+                <el-row :class="[i2 === 0 ? '' : 'bd-top', 'vcenter']" v-for="(item2, i2) in item1.children" :key="i2">
                   <el-col :span="6">
-                    <el-tag type="success" closable
-                      @close="removeRightById(scope.row, item2.id)">
+                    <el-tag type="success" closable @close="removeRightById(scope.row, item2.id)">
                       {{ item2.authName }}
                     </el-tag>
                     <i class="el-icon-caret-right"></i>
                   </el-col>
                   <!-- 三级 -->
                   <el-col :span="18">
-                    <el-tag v-for="item3 in item2.children" :key="item3.id" type="warning"
-                      closable @close="removeRightById(scope.row, item3.id)">
+                    <el-tag v-for="item3 in item2.children" :key="item3.id" type="warning" closable
+                      @close="removeRightById(scope.row, item3.id)">
                       {{ item3.authName }}
                     </el-tag>
                   </el-col>
@@ -61,18 +59,15 @@
         <el-table-column label="操作" width="300px">
           <template v-slot="scope">
             <!-- 编辑按钮 -->
-            <el-button size="mini" type="primary" icon="el-icon-edit"
-              @click="showEditDialog(scope.row.id)">
+            <el-button size="mini" type="primary" icon="el-icon-edit" @click="showEditDialog(scope.row.id)">
               编辑
             </el-button>
             <!-- 删除按钮 -->
-            <el-button size="mini" type="danger" icon="el-icon-delete"
-              @click="removeEditDialog(scope.row.id)">
+            <el-button size="mini" type="danger" icon="el-icon-delete" @click="removeEditDialog(scope.row.id)">
               删除
             </el-button>
             <!-- 分配角色按钮 -->
-            <el-button size="mini" type="warning" icon="el-icon-setting"
-              @click="showSetRightDialog(scope.row)">
+            <el-button size="mini" type="warning" icon="el-icon-setting" @click="showSetRightDialog(scope.row)">
               分配权限
             </el-button>
           </template>
@@ -81,8 +76,7 @@
     </el-card>
 
     <!-- 添加用户的对话框 -->
-    <el-dialog title="添加角色" :visible.sync="addDialogVisible" width="50%"
-      @close="editDialogClosed">
+    <el-dialog title="添加角色" :visible.sync="addDialogVisible" width="50%" @close="editDialogClosed">
       <!-- 内容区域 -->
       <el-form :model="addForm" ref="editFormRef" label-width="70px">
         <el-form-item label="角色名称" prop="roleName">
@@ -100,8 +94,7 @@
     </el-dialog>
 
     <!-- 编辑按钮对话框 -->
-    <el-dialog title="编辑用户" :visible.sync="editDialogVisible" width="50%"
-      @close="editDialogClosed">
+    <el-dialog title="编辑用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
       <el-form :model="editForm" ref="editFormRef" label-width="70px">
         <el-form-item label="角色名称" prop="roleName">
           <el-input v-model="editForm.roleName"></el-input>
@@ -117,11 +110,10 @@
     </el-dialog>
 
     <!-- 分配权限对话框 -->
-    <el-dialog title="分配权限" :visible.sync="setRightdialogVisible" width="50%"
-      @close="setRightDialogClosed">
+    <el-dialog title="分配权限" :visible.sync="setRightdialogVisible" width="50%" @close="setRightDialogClosed">
       <!-- 树形控件 -->
-      <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id"
-        default-expand-all :default-checked-keys="defKeys" ref="treeRef"></el-tree>
+      <el-tree :data="rightsList" :props="treeProps" show-checkbox node-key="id" default-expand-all
+        :default-checked-keys="defKeys" ref="treeRef"></el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="setRightdialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="allotRights">确 定</el-button>
@@ -134,6 +126,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       // 所有角色列表
@@ -159,15 +154,13 @@ export default {
     // 获取所有角色列表
     async getRolesList() {
       const { data: res } = await this.$http.get('roles')
-
-      if (res.meta.status !== 200) { return this.$message.error('获取角色列表失败') }
-
+      if (res.meta.status !== 200) return this.$message.error('获取角色列表失败')
       this.roleList = res.data
     },
     // 点击 编辑按钮 修改用户信息
     async showEditDialog(id) {
       const { data: res } = await this.$http.get('roles/' + id)
-      if (res.meta.status !== 200) { return this.$message.error('修改用户信息失败') }
+      if (res.meta.status !== 200) return this.$message.error('修改用户信息失败')
       this.editForm = res.data
       console.log(this.editForm)
       console.log(res)
@@ -184,8 +177,7 @@ export default {
         roleDesc: this.editForm.roleDesc
       })
 
-      if (res.meta.status !== 200) { return this.$message.error('修改用户信息失败') }
-
+      if (res.meta.status !== 200) return this.$message.error('修改用户信息失败')
       this.getRolesList()
       this.editDialogVisible = false
       this.$message.success('更新用户信息成功')
@@ -199,7 +191,7 @@ export default {
       })
         .catch(err => err)
 
-      if (confirmResult !== 'confirm') { return this.$message.info('已取消删除') } // 等于 .catch
+      if (confirmResult !== 'confirm') return this.$message.info('已取消删除')
       const { data: res } = await this.$http.delete('roles/' + id)
       if (res.meta.status !== 200) { return this.$message.error('删除失败') }
       this.$message.success('删除成功')
@@ -216,13 +208,10 @@ export default {
         roleDesc: this.addForm.roleDesc
       })
 
-      if (res.meta.status !== 201) {
-        console.log(res)
-        this.$message.error('添加用户失败')
-      }
+      if (res.meta.status !== 201) return this.$message.error('添加用户失败')
 
       this.$message.success('添加用户成功')
-      this.addDialogVisible = false // 隐藏添加用户对话框
+      this.addDialogVisible = false
       this.getRolesList()
     },
     // 根据 ID删除对应的权限
@@ -252,7 +241,6 @@ export default {
       const { data: res } = await this.$http.get('rights/tree')
       if (res.meta.status !== 200) return this.$message.error('获取权限失败')
       this.rightsList = res.data
-      console.log(this.rightsList)
 
       // 递归获取三级节点的 ID
       this.getLeafKeys(role, this.defKeys)
@@ -287,12 +275,7 @@ export default {
       this.$message.success('分配权限成功')
       this.getRolesList()
       this.setRightdialogVisible = false
-
-      console.log(keys)
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

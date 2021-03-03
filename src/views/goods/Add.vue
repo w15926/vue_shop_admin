@@ -12,8 +12,7 @@
       <el-alert title="添加商品信息" type="info" center show-icon :closable="false">
       </el-alert>
       <!-- 步骤条区域 -->
-      <el-steps :space="200" :active="activeIndex - 0" finish-status="success"
-        align-center>
+      <el-steps :space="200" :active="activeIndex - 0" finish-status="success" align-center>
         <el-step title="基本信息"></el-step>
         <el-step title="商品参数"></el-step>
         <el-step title="商品属性"></el-step>
@@ -24,10 +23,8 @@
 
       <!-- tab栏区域 -->
 
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px"
-        label-position="top">
-        <el-tabs v-model="activeIndex" :tab-position="'left'"
-          :before-leave="beforeTabLeave" @tab-click="tabClicked">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px" label-position="top">
+        <el-tabs v-model="activeIndex" :tab-position="'left'" :before-leave="beforeTabLeave" @tab-click="tabClicked">
           <el-tab-pane label="基本信息" name="0">
             <el-form-item label="商品名称" prop="goods_name">
               <el-input v-model="addForm.goods_name"></el-input>
@@ -42,33 +39,29 @@
               <el-input v-model="addForm.goods_number" type="number"></el-input>
             </el-form-item>
             <el-form-item label="商品分类" prop="goods_cat">
-              <el-cascader expand-trigger="hover" :options="catelist" :props="cateProps"
-                v-model="addForm.goods_cat" @change="handleChange">
+              <el-cascader expand-trigger="hover" :options="catelist" :props="cateProps" v-model="addForm.goods_cat"
+                @change="handleChange">
               </el-cascader>
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="商品参数" name="1">
             <!-- 渲染表单的Item项 -->
-            <el-form-item :label="item.attr_name" v-for="item in manyTableData"
-              :key="item.attr_id">
+            <el-form-item :label="item.attr_name" v-for="item in manyTableData" :key="item.attr_id">
               <!-- 复选框组 -->
               <el-checkbox-group v-model="item.attr_vals">
-                <el-checkbox :label="cb" v-for="(cb, i) in item.attr_vals" :key="i"
-                  border></el-checkbox>
+                <el-checkbox :label="cb" v-for="(cb, i) in item.attr_vals" :key="i" border></el-checkbox>
               </el-checkbox-group>
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="商品属性" name="2">
-            <el-form-item :label="item.attr_name" v-for="item in onlyTableData"
-              :key="item.attr_id">
+            <el-form-item :label="item.attr_name" v-for="item in onlyTableData" :key="item.attr_id">
               <el-input v-model="item.attr_vals"></el-input>
             </el-form-item>
           </el-tab-pane>
           <el-tab-pane label="商品图片" name="3">
             <!-- action 表示图片要上传到的后台API地址 -->
-            <el-upload :action="uploadURL" :on-preview="handlePreview"
-              :on-remove="handleRemove" list-type="picture" :headers="headerObj"
-              :on-success="handleSuccess">
+            <el-upload :action="uploadURL" :on-preview="handlePreview" :on-remove="handleRemove" list-type="picture"
+              :headers="headerObj" :on-success="handleSuccess">
               <el-button size="small" type="primary">点击上传</el-button>
             </el-upload>
           </el-tab-pane>
@@ -95,6 +88,9 @@ import breadCrumb from '@/components/el-ui/BreadCrumb'
 import _ from 'lodash'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       activeIndex: '0',
@@ -157,20 +153,12 @@ export default {
     // 获取所有商品分类数据
     async getCateList() {
       const { data: res } = await this.$http.get('categories')
-
-      if (res.meta.status !== 200) {
-        return this.$message.error('获取商品分类数据失败！')
-      }
-
       this.catelist = res.data
       console.log(this.catelist)
     },
     // 级联选择器选中项变化，会触发这个函数
     handleChange() {
-      console.log(this.addForm.goods_cat)
-      if (this.addForm.goods_cat.length !== 3) {
-        this.addForm.goods_cat = []
-      }
+      if (this.addForm.goods_cat.length !== 3) return this.addForm.goods_cat = []
     },
     beforeTabLeave(activeName, oldActiveName) {
       // console.log('即将离开的标签页名字是：' + oldActiveName)
@@ -185,18 +173,10 @@ export default {
       // console.log(this.activeIndex)
       // 证明访问的是动态参数面板
       if (this.activeIndex === '1') {
-        const { data: res } = await this.$http.get(
-          `categories/${this.cateId}/attributes`,
-          {
-            params: { sel: 'many' }
-          }
-        )
+        const { data: res } = await this.$http.get(`categories/${this.cateId}/attributes`, {
+          params: { sel: 'many' }
+        })
 
-        if (res.meta.status !== 200) {
-          return this.$message.error('获取动态参数列表失败！')
-        }
-
-        console.log(res.data)
         res.data.forEach(item => {
           item.attr_vals =
             item.attr_vals.length === 0 ? [] : item.attr_vals.split(' ')
@@ -210,11 +190,6 @@ export default {
           }
         )
 
-        if (res.meta.status !== 200) {
-          return this.$message.error('获取静态属性失败！')
-        }
-
-        console.log(res.data)
         this.onlyTableData = res.data
       }
     },
@@ -226,34 +201,29 @@ export default {
     },
     // 处理移除图片的操作
     handleRemove(file) {
-      // console.log(file)
       // 1. 获取将要删除的图片的临时路径
       const filePath = file.response.data.tmp_path
       // 2. 从 pics 数组中，找到这个图片对应的索引值
       const i = this.addForm.pics.findIndex(x => x.pic === filePath)
       // 3. 调用数组的 splice 方法，把图片信息对象，从 pics 数组中移除
       this.addForm.pics.splice(i, 1)
-      console.log(this.addForm)
     },
     // 监听图片上传成功的事件
     handleSuccess(response) {
-      console.log(response)
       // 1. 拼接得到一个图片信息对象
       const picInfo = { pic: response.data.tmp_path }
       // 2. 将图片信息对象，push 到pics数组中
       this.addForm.pics.push(picInfo)
-      console.log(this.addForm)
     },
     // 添加商品
     add() {
       this.$refs.addFormRef.validate(async valid => {
-        if (!valid) {
-          return this.$message.error('请填写必要的表单项！')
-        }
+        if (!valid) return this.$message.error('请填写必要的表单项！')
         // 执行添加的业务逻辑
         // lodash   cloneDeep(obj)
         const form = _.cloneDeep(this.addForm)
         form.goods_cat = form.goods_cat.join(',')
+
         // 处理动态参数
         this.manyTableData.forEach(item => {
           const newInfo = {
@@ -262,24 +232,18 @@ export default {
           }
           this.addForm.attrs.push(newInfo)
         })
+
         // 处理静态属性
         this.onlyTableData.forEach(item => {
           const newInfo = { attr_id: item.attr_id, attr_value: item.attr_vals }
           this.addForm.attrs.push(newInfo)
         })
         form.attrs = this.addForm.attrs
-        console.log(form)
 
         // 发起请求添加商品
         // 商品的名称，必须是唯一的
         const { data: res } = await this.$http.post('goods', form)
-
-        if (res.meta.status !== 201) {
-          this.$message.error('添加商品失败！请填写必要属性')
-          console.log(res)
-          return
-        }
-
+        if (res.meta.status !== 201) return this.$message.error('添加商品失败！请填写必要属性')
         this.$message.success('添加商品成功！')
         this.$router.push('/goods')
       })
@@ -287,14 +251,9 @@ export default {
   },
   computed: {
     cateId() {
-      if (this.addForm.goods_cat.length === 3) {
-        return this.addForm.goods_cat[2]
-      }
+      if (this.addForm.goods_cat.length === 3) return this.addForm.goods_cat[2]
       return null
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

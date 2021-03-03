@@ -20,6 +20,9 @@ import * as echarts from 'echarts'
 import _ from 'lodash'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       options: { // api文档显示要合并的对象
@@ -69,9 +72,6 @@ export default {
   },
   methods: {
 
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

@@ -78,10 +78,8 @@ export default {
         const { data: res } = await this.$http.post('login', this.loginForm) // data: res解构data并重命名为res
         if (res.meta.status != 200) return this.$message.error('登录失败')
         this.$message.success('登录成功')
-
-        // token保存在sessionStorage里（页面关闭清除缓存）
-        window.sessionStorage.setItem('token', res.data.token)
-        // 跳转到 /home（push可以返回页面，replace无法返回ß）
+        
+        window.sessionStorage.setItem('token', res.data.token) // token保存在sessionStorage里（页面关闭清除缓存）
         this.$router.push('/home')
       })
     },

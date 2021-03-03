@@ -11,8 +11,7 @@
       <!-- 搜索与添加区域 -->
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable
-            @clear="getUserList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getUserList">
             <el-button slot="append" icon="el-icon-search" @click="getUserList">
             </el-button>
           </el-input>
@@ -42,19 +41,16 @@
         <el-table-column label="操作" width="180px">
           <template v-slot="scope">
             <!-- 修改按钮 -->
-            <el-button type="primary" icon="el-icon-edit" size="mini"
-              @click="showEditDialog(scope.row.id)">
+            <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.id)">
             </el-button>
 
             <!-- 删除按钮 -->
-            <el-button type="danger" icon="el-icon-delete" size="mini"
-              @click="removeUserById(scope.row.id)">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUserById(scope.row.id)">
             </el-button>
 
             <!-- 分配角色按钮 -->
             <el-tooltip effect="light" content="分配角色" placement="top" :enterable="false">
-              <el-button type="warning" icon="el-icon-setting" size="mini"
-                @click="setRole(scope.row)">
+              <el-button type="warning" icon="el-icon-setting" size="mini" @click="setRole(scope.row)">
               </el-button>
             </el-tooltip>
           </template>
@@ -63,15 +59,13 @@
 
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]"
-        :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
+        :current-page="queryInfo.pagenum" :page-sizes="[1, 2, 5, 10]" :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper" :total="total">
       </el-pagination>
     </el-card>
 
     <!-- 添加用户的对话框 -->
-    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%"
-      @close="addDialogClosed">
+    <el-dialog title="添加用户" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
       <!-- 内容区域 -->
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="70px">
         <el-form-item label="用户名" prop="username">
@@ -95,10 +89,8 @@
     </el-dialog>
 
     <!-- 修改用户信息对话框 -->
-    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%"
-      @close="editDialogClosed">
-      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef"
-        label-width="70px">
+    <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="70px">
         <el-form-item label="用户名">
           <el-input v-model="editForm.username" disabled></el-input>
         </el-form-item>
@@ -116,16 +108,14 @@
     </el-dialog>
 
     <!-- 分配角色对话框 -->
-    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%"
-      @close="setRoleDialogClosed">
+    <el-dialog title="分配角色" :visible.sync="setRoleDialogVisible" width="50%" @close="setRoleDialogClosed">
       <div>
         <p>当前的用户：{{ this.userInfo.username }}</p>
         <p>当前的角色：{{ this.userInfo.role_name }}</p>
         <p>
           分配新角色：
           <el-select v-model="selectedRoleId" placeholder="请选择">
-            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName"
-              :value="item.id">
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id">
             </el-option>
           </el-select>
         </p>
@@ -142,6 +132,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     // 验证邮箱规则
     let checkEmail = (rule, value, callback) => { }
@@ -245,57 +238,47 @@ export default {
     // 获取用户列表
     async getUserList() {
       const { data: res } = await this.$http.get('users', { params: this.queryInfo })
-      if (res.meta.status !== 200) return this.$message.error('获取用户列表失败')
+      if (res.meta.status !== 200) return
       this.userlist = res.data.users
       this.total = res.data.total
-      console.log(res)
     },
     // 监听 pagesize 改变事件（分页功能 几百条/页）
     handleSizeChange(newSize) {
-      console.log(newSize)
       this.queryInfo.pagesize = newSize
       this.getUserList()
     },
     // 监听页码值改变
     handleCurrentChange(newPage) {
-      console.log(newPage)
       this.queryInfo.pagenum = newPage
       this.getUserList()
     },
     // 监听 switch 开关状态的改变 （状态开关）
     async userStateChanged(userInfo) {
-      // put 请求过去直接修改
       const { data: res } = await this.$http.put(`users/${userInfo.id}/state/${userInfo.mg_state}`)
-      if (res.meta.status !== 200) {
-        // 如果状态不是200，那就不做修改，可是页面已经修改过了，这时候再取反修改回来
-        userInfo.mg_state = !userInfo.mg_state
-        return this.$message.error('更新用户状态失败')
-      }
+      // 如果状态不是200，那就不做修改，可是页面已经修改过了，这时候再取反修改回来
+      if (res.meta.status !== 200) return userInfo.mg_state = !userInfo.mg_state
       this.$message.success('更新成功')
     },
     // 监听 添加用户对话框 的关闭事件
     addDialogClosed() {
-      this.$refs.addFormRef.resetFields() // 取消对话框后（未提交成功则）重置表单 resetFields为内置属性
+      this.$refs.addFormRef.resetFields() // resetFields为element-ui提供的重置表单方法
     },
     // 点击 添加用户表单 的确认按钮
     addUser() {
       this.$refs.addFormRef.validate(async valid => { // 预验证（成功为 true，失败为 false）
         if (!valid) return // 如果不为真（false）就退出
-        const { data: res } = await this.$http.post('users', this.addForm) // 如果为真就发送请求
-        console.log(res)
 
-        if (!res.meta.status !== 201) {
-          this.$message.error('添加用户失败')
-        }
+        const { data: res } = await this.$http.post('users', this.addForm) // 如果为真就发送请求
+        if (!res.meta.status !== 201) return this.$message.error('添加用户失败')
         this.$message.success('添加用户成功')
-        this.addDialogVisible = false // 隐藏添加用户对话框
-        this.getUserList() // 重新获取用户列表
+        this.addDialogVisible = false
+        this.getUserList()
       })
     },
     // 点击 修改按钮 修改用户信息
     async showEditDialog(id) {
       const { data: res } = await this.$http.get('users/' + id)
-      if (res.meta.status !== 200) { return this.$message.error('查询用户信息失败') }
+      if (res.meta.status !== 200) return this.$message.error('查询用户信息失败')
       this.editForm = res.data
       this.editDialogVisible = true
     },
@@ -312,10 +295,7 @@ export default {
           mobile: this.editForm.mobile
         })
 
-        if (res.meta.status !== 200) {
-          return this.$message.error('更新用户信息失败')
-        }
-
+        if (res.meta.status !== 200) return this.$message.error('更新用户信息失败')
         this.editDialogVisible = false
         this.getUserList()
         this.$message.success('更新用户信息成功')
@@ -328,9 +308,9 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .catch(err => err)
+        .catch(err => err) // 这个组件必须写 catch，取消控制台报错
 
-      if (confirmResult !== 'confirm') { return this.$message.info('已取消删除咯') } // 等于 .catch
+      if (confirmResult !== 'confirm')  return this.$message.info('已取消删除咯')
       const { data: res } = await this.$http.delete('users/' + id)
       if (res.meta.status !== 200) return this.$message.error('删除失败')
       this.$message.success('删除成功')
@@ -363,9 +343,6 @@ export default {
       this.selectRoleId = ''
       this.userInfo = {}
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

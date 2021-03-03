@@ -13,9 +13,11 @@ html, body, #app {
   font-size: 12px;
 }
 
-/* 面包屑 首页 字体颜色 */
-.el-breadcrumb__inner a, .el-breadcrumb__inner.is-link {
-  color: rgb(62, 113, 252) !important;
+/* element-ui中 面包屑第一个名字 */
+
+.el-breadcrumb :first-child span {
+  color: #5a9df9;
+  transition: all 0.3s;
 }
 
 .el-card {

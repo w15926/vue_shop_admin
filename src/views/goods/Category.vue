@@ -104,6 +104,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+    components: {
+    breadCrumb
+  },
   data() {
     return {
       queryInfo: {
@@ -168,7 +171,7 @@ export default {
   methods: {
     async getCateList() {
       const { data: res } = await this.$http.get('categories', { params: this.queryInfo })
-      if (res.meta.status !== 200) { return this.$message.error('获取商品分类列表失败') }
+      if (res.meta.status !== 200) return 
       this.cateList = res.data.result
       this.total = res.data.total
     },
@@ -193,13 +196,12 @@ export default {
         params: { type: 2 }
       })
 
-      if (res.meta.status !== 200) { return this.$message.error('获取父级列表失败') }
+      if (res.meta.status !== 200) return
       this.paraentCateList = res.data
       console.log(res.data)
     },
     // 选择项发生改变触发的函数
     paraentCateChange() {
-      console.log(this.selectedKeys)
       // 如果 selectedKeys 数组中的 length 大于 0 ，证明选中父级分类。反之则无
       if (this.selectedKeys.length > 0) {
         // 父级分类的 ID
@@ -217,7 +219,7 @@ export default {
     // 添加分类表单确认按钮
     addCate() {
       this.$refs.addCateFormRef.validate(async valid => {
-        if (!valid) return this, $message.error('验证失败')
+        if (!valid) return this, $message.error('表单验证失败')
         const { data: res } = await this.$http.post('categories', this.addCateForm)
 
         if (res.meta.status !== 201) return this.$message.error('添加分类失败')
@@ -237,15 +239,14 @@ export default {
     // 点击 编辑按钮 编辑信息
     async showEditDialog(id) {
       const { data: res } = await this.$http.get('categories/' + id)
-      if (res.meta.status !== 200) return this.$message.error('名称查询失败')
+      if (res.meta.status !== 200) return
       this.editForm = res.data
 
       this.editDialogVisible = true
     },
     // 关闭编辑按钮重置表单
     editDialogClosed() {
-      // 已经设置每次打开自动获取当前名称
-      // this.$refs.editFormRef.resetFields()
+      this.$refs.editFormRef.resetFields()
     },
     // 点击编辑按钮对话框的 确定按钮
     editUserInfo() {
@@ -255,7 +256,7 @@ export default {
           cat_name: this.editForm.cat_name
         })
 
-        if (res.meta.status !== 200) return this.$message.error('更新用户信息失败')
+        if (res.meta.status !== 200) return
 
         this.$message.success('更新名称成功')
         this.getCateList()
@@ -274,13 +275,10 @@ export default {
       if (confirmResult !== 'confirm') return this.$message.info('已取消删除') // 等价于 .catch
 
       const { data: res } = await this.$http.delete('categories/' + id)
-      if (res.meta.status !== 200) return this.$message.error('删除失败')
+      if (res.meta.status !== 200) return
       this.$message.success('删除成功')
       this.getCateList()
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

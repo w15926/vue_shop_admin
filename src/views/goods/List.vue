@@ -10,8 +10,7 @@
     <el-card>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable
-            @clear="getGoodsList">
+          <el-input placeholder="请输入内容" v-model="queryInfo.query" clearable @clear="getGoodsList">
             <el-button slot="append" icon="el-icon-search" @click="getGoodsList">
             </el-button>
           </el-input>
@@ -40,8 +39,7 @@
           <template v-slot="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini">
             </el-button>
-            <el-button type="danger" icon="el-icon-delete" size="mini"
-              @click="removeById(scope.row.goods_id)">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeById(scope.row.goods_id)">
             </el-button>
           </template>
         </el-table-column>
@@ -49,9 +47,8 @@
 
       <!-- 分页区域 -->
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page="queryInfo.pagenum" :page-sizes="[1, 5, 10, 20]"
-        :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper"
-        :total="total" background>
+        :current-page="queryInfo.pagenum" :page-sizes="[1, 5, 10, 20]" :page-size="queryInfo.pagesize"
+        layout="total, sizes, prev, pager, next, jumper" :total="total" background>
       </el-pagination>
 
     </el-card>
@@ -62,6 +59,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       queryInfo: { // 查询参数
@@ -114,9 +114,6 @@ export default {
     goAddPage() {
       this.$router.push('/goods/add')
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>

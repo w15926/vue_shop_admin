@@ -1,47 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
 const Login = () => import('@/views/Login.vue')
-const Home = () => import('@/views/Home.vue')
-
-const Welcome = () => import('@/views/Welcome.vue')
-const Users = () => import('@/views/user/Users.vue')
-
-const Rights = () => import('@/views/power/Rights.vue')
-const Roles = () => import('@/views/power/Roles.vue')
-
-const Category = () => import('@/views/goods/Category')
-const Params = () => import('@/views/goods/Params')
-const List = () => import('@/views/goods/List')
-const Add = () => import('@/views/goods/Add')
-
-const Order = () => import('@/views/order/Order')
-
-const Report = () => import('@/views/report/Report')
 
 Vue.use(VueRouter)
-const routes = [{
-  path: '/',
-  redirect: '/login'
-}, {
-  path: '/login',
-  component: Login
-}, {
-  path: '/home',
-  component: Home,
-  redirect: '/welcome',
-  children: [
-    { path: '/welcome', component: Welcome },
-    { path: '/users', component: Users },
-    { path: '/rights', component: Rights },
-    { path: '/roles', component: Roles },
-    { path: '/categories', component: Category },
-    { path: '/params', component: Params },
-    { path: '/goods', component: List },
-    { path: '/goods/add', component: Add },
-    { path: '/orders', component: Order },
-    { path: '/reports', component: Report }
-  ]
-},]
+const routes = [
+  { path: '/', redirect: '/login' },
+  { path: '/login', component: Login },
+  {
+    path: '/home',
+    component: () => import('@/views/Home.vue'),
+    redirect: '/users',
+    children: [
+      { path: '/users', component: () => import('@/views/user/Users.vue') },
+      { path: '/rights', component: () => import('@/views/power/Rights.vue') },
+      { path: '/roles', component: () => import('@/views/power/Roles.vue') },
+      { path: '/categories', component: () => import('@/views/goods/Category') },
+      { path: '/params', component: () => import('@/views/goods/Params') },
+      { path: '/goods', component: () => import('@/views/goods/List') },
+      { path: '/goods/add', component: () => import('@/views/goods/Add') },
+      { path: '/orders', component: () => import('@/views/order/Order') },
+      { path: '/reports', component: () => import('@/views/report/Report') }
+    ]
+  },
+]
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,

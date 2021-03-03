@@ -32,8 +32,7 @@
         <!-- 动态参数面板 -->
         <el-tab-pane label="动态参数" name="many">
           <!-- 按钮 -->
-          <el-button type="primary" size="mini" :disabled="isBtnDisabled"
-            @click="addDialogVisible = true">
+          <el-button type="primary" size="mini" :disabled="isBtnDisabled" @click="addDialogVisible = true">
             动态参数
           </el-button>
           <!-- 表格 -->
@@ -42,21 +41,18 @@
             <el-table-column type="expand">
               <template v-slot="scope">
                 <!-- 渲染 tag -->
-                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable
-                  @close="handelClose(i, scope.row)">
+                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable @close="handelClose(i, scope.row)">
                   {{ item }}
                 </el-tag>
 
                 <!-- tag文本框 -->
-                <el-input class="input-new-tag" v-if="scope.row.inputVisible"
-                  v-model="scope.row.inputValue" ref="saveTagInput" size="small"
-                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                <el-input class="input-new-tag" v-if="scope.row.inputVisible" v-model="scope.row.inputValue"
+                  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.row)"
                   @blur="handleInputConfirm(scope.row)">
                 </el-input>
 
                 <!-- tag新增 -->
-                <el-button v-else class="button-new-tag" size="small"
-                  @click="showInput(scope.row)">
+                <el-button v-else class="button-new-tag" size="small" @click="showInput(scope.row)">
                   + New Tag
                 </el-button>
               </template>
@@ -65,12 +61,10 @@
             <el-table-column prop="attr_name" label="名称"></el-table-column>
             <el-table-column label="操作">
               <template v-slot="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini"
-                  @click="showEditDialog(scope.row.attr_id)">
+                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.attr_id)">
                   编辑
                 </el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini"
-                  @click="removeParams(scope.row.attr_id)">
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">
                   删除
                 </el-button>
               </template>
@@ -80,8 +74,7 @@
         <!-- 静态属性面板 -->
         <el-tab-pane label="静态属性" name="only">
           <!-- 按钮 -->
-          <el-button type="primary" size="mini" :disabled="isBtnDisabled"
-            @click="addDialogVisible = true">
+          <el-button type="primary" size="mini" :disabled="isBtnDisabled" @click="addDialogVisible = true">
             静态属性
           </el-button>
           <!-- 表格 -->
@@ -90,21 +83,18 @@
             <el-table-column type="expand">
               <template v-slot="scope">
                 <!-- 渲染 tag -->
-                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable
-                  @close="handelClose(i, scope.row)">
+                <el-tag v-for="(item, i) in scope.row.attr_vals" :key="i" closable @close="handelClose(i, scope.row)">
                   {{ item }}
                 </el-tag>
 
                 <!-- tag文本框 -->
-                <el-input class="input-new-tag" v-if="scope.row.inputVisible"
-                  v-model="scope.row.inputValue" ref="saveTagInput" size="small"
-                  @keyup.enter.native="handleInputConfirm(scope.row)"
+                <el-input class="input-new-tag" v-if="scope.row.inputVisible" v-model="scope.row.inputValue"
+                  ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm(scope.row)"
                   @blur="handleInputConfirm(scope.row)">
                 </el-input>
 
                 <!-- tag新增 -->
-                <el-button v-else class="button-new-tag" size="small"
-                  @click="showInput(scope.row)">
+                <el-button v-else class="button-new-tag" size="small" @click="showInput(scope.row)">
                   + New Tag
                 </el-button>
               </template>
@@ -113,12 +103,10 @@
             <el-table-column prop="attr_name" label="名称"></el-table-column>
             <el-table-column label="操作">
               <template v-slot="scope">
-                <el-button type="primary" icon="el-icon-edit" size="mini"
-                  @click="showEditDialog(scope.row.attr_id)">
+                <el-button type="primary" icon="el-icon-edit" size="mini" @click="showEditDialog(scope.row.attr_id)">
                   编辑
                 </el-button>
-                <el-button type="danger" icon="el-icon-delete" size="mini"
-                  @click="removeParams(scope.row.attr_id)">
+                <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeParams(scope.row.attr_id)">
                   删除
                 </el-button>
               </template>
@@ -129,10 +117,8 @@
     </el-card>
 
     <!-- 添加参数对话框 -->
-    <el-dialog :title="'添加' + titleText" :visible.sync="addDialogVisible" width="50%"
-      @close="addDialogClosed">
-      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef"
-        label-width="100px">
+    <el-dialog :title="'添加' + titleText" :visible.sync="addDialogVisible" width="50%" @close="addDialogClosed">
+      <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="100px">
         <el-form-item :label="activeName" prop="attr_name">
           <el-input v-model="addForm.attr_name"></el-input>
         </el-form-item>
@@ -144,10 +130,8 @@
     </el-dialog>
 
     <!-- 编辑参数对话框 -->
-    <el-dialog :title="'添加' + titleText" :visible.sync="editDialogVisible" width="50%"
-      @close="editDialogClosed">
-      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef"
-        label-width="100px">
+    <el-dialog :title="'添加' + titleText" :visible.sync="editDialogVisible" width="50%" @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px">
         <el-form-item :label="activeName" prop="attr_name">
           <el-input v-model="editForm.attr_name"></el-input>
         </el-form-item>
@@ -164,6 +148,9 @@
 import breadCrumb from '@/components/el-ui/BreadCrumb'
 
 export default {
+  components: {
+    breadCrumb
+  },
   data() {
     return {
       cateList: [], // 商品分类参数
@@ -215,10 +202,8 @@ export default {
     handleChange() {
       this.getParamsData()
     },
-
     // tab页签点击处理函数
     handleClick() {
-      console.log(this.activeName)
       this.getParamsData()
     },
     // 得到参数列表
@@ -360,7 +345,7 @@ export default {
         attr_vals: row.attr_vals.join(' ')
       })
 
-      if (res.meta.status !== 200) return this.$message.error('像服务器提交失败')
+      if (res.meta.status !== 200) return this.$message.error('向服务器提交失败')
       this.$message.success('修改成功')
     }
   },
@@ -380,9 +365,6 @@ export default {
       if (this.activeName == 'many') return '动态参数'
       return '静态属性'
     }
-  },
-  components: {
-    breadCrumb
   }
 }
 </script>
