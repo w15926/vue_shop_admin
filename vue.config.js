@@ -4,8 +4,7 @@ module.exports = {
     config.when(process.env.NODE_ENV === 'production', config => {
       config.entry('app').clear().add('./src/main-pro.js')
 
-      // 根据命名自动引入外用资源，在 index.html里配合使用
-      config.set('externals', {
+      config.set('externals', { // 根据命名自动引入外用资源，在 index.html里配合使用
         vue: 'Vue',
         'vue-router': 'VueRouter',
         axios: 'axios',
@@ -15,8 +14,7 @@ module.exports = {
         'vue-quill-editor': 'VueQuillEditor'
       })
 
-      // 根据不同环境引入不同文件，配合 index.html里 <%= %>
-      config.plugin('html').tap(args => {
+      config.plugin('html').tap(args => { // 根据不同环境引入不同文件，配合 index.html里 <%= %>
         args[0].isProd = true
         return args
       })
